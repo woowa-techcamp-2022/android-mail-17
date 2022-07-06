@@ -1,9 +1,11 @@
-package com.example.android_mail_17
+package com.example.android_mail_17.ui
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
+import com.example.android_mail_17.R
 import com.example.android_mail_17.databinding.ActivityLoginBinding
 import com.example.android_mail_17.others.Utils
 import com.example.android_mail_17.viewmodels.FlagViewModel
@@ -24,6 +26,7 @@ class LoginActivity : AppCompatActivity() {
         restoreData()
         setTextChangeListener()
         setLiveDataObserver()
+        setButtonClickListener()
     }
 
     private fun restoreData() {
@@ -85,6 +88,13 @@ class LoginActivity : AppCompatActivity() {
     private fun setLiveDataObserver() {
         flagViewModel.constraintFlag.observe(this) { flag ->
             binding.loginButton.isEnabled = flag.nicknameConstraintFlag && flag.emailConstraintFlag
+        }
+    }
+
+    private fun setButtonClickListener() {
+        binding.loginButton.setOnClickListener {
+            startActivity(Intent(this, HomeActivity::class.java))
+            finish()
         }
     }
 }
