@@ -48,6 +48,7 @@
             android:hint="@string/nickname"
             app:endIconMode="clear_text"
             app:errorEnabled="true"
+            app:errorIconDrawable="@null"
             app:layout_constraintEnd_toStartOf="@id/loginEndGuide"
             app:layout_constraintStart_toEndOf="@id/loginStartGuide"
             app:layout_constraintTop_toBottomOf="@id/loginImageView">
@@ -67,6 +68,7 @@
             android:hint="@string/email"
             app:endIconMode="clear_text"
             app:errorEnabled="true"
+            app:errorIconDrawable="@null"
             app:layout_constraintEnd_toStartOf="@id/loginEndGuide"
             app:layout_constraintStart_toEndOf="@id/loginStartGuide"
             app:layout_constraintTop_toBottomOf="@id/loginNickNameLayout">
