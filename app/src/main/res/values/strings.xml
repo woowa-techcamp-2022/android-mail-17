@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Android_Mail_17</string>
+
+    <string name="login_imageview_desc">login image</string>
+    <string name="nickname">닉네임</string>
+    <string name="email">이메일</string>
+    <string name="next">Next</string>
+    <string name="nickname_error">닉네임은 영문자와 숫자 결합한 4~12자로 입력해주세요.</string>
+    <string name="email_error">적절한 이메일 형식이 아닙니다.</string>
 </resources>
