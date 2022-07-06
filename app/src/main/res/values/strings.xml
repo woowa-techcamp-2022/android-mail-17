@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Android_Mail_17</string>
+
+    <string name="login_imageview_desc">login image</string>
+    <string name="nickname">닉네임</string>
+    <string name="email">이메일</string>
+    <string name="next">Next</string>
 </resources>
