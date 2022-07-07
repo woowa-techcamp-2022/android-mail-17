@@ -6,21 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.SettingFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/settingAppbarLayout"
-        style="@style/Widget.MaterialComponents.AppBarLayout.Surface"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:layout_constraintTop_toTopOf="parent"
-        app:liftOnScroll="true">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:title="@string/setting" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/settingStartGuideline"
         android:layout_width="wrap_content"
@@ -44,7 +29,7 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         app:layout_constraintEnd_toStartOf="@id/settingEndGuideline"
         app:layout_constraintStart_toEndOf="@id/settingStartGuideline"
-        app:layout_constraintTop_toBottomOf="@id/settingAppbarLayout" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/emailView"

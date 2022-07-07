@@ -9,5 +9,8 @@
     <string name="email_error">적절한 이메일 형식이 아닙니다.</string>
     <string name="mail">Mail</string>
     <string name="setting">Setting</string>
-    <string name="w_mail">W_mail</string>
+    <string name="w_mail">W mail</string>
+    <string name="primary">Primary</string>
+    <string name="social">Social</string>
+    <string name="promotion">Promotion</string>
 </resources>

@@ -16,7 +16,7 @@ class LoginActivity : AppCompatActivity() {
     private val flagViewModel by viewModels<FlagViewModel>()
     private val inputViewModel by viewModels<InputViewModel>()
     private var _binding: ActivityLoginBinding? = null
-    val binding: ActivityLoginBinding get() = requireNotNull(_binding)
+    private val binding: ActivityLoginBinding get() = requireNotNull(_binding)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
