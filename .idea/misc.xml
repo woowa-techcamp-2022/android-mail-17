@@ -4,10 +4,23 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/edit.xml" value="0.1875" />
+        <entry key="app/src/main/res/drawable/mail.xml" value="0.299" />
+        <entry key="app/src/main/res/drawable/menu.xml" value="0.299" />
+        <entry key="app/src/main/res/drawable/primary.xml" value="0.299" />
+        <entry key="app/src/main/res/drawable/profile.xml" value="0.1875" />
+        <entry key="app/src/main/res/drawable/promotion.xml" value="0.299" />
+        <entry key="app/src/main/res/drawable/setting.xml" value="0.299" />
+        <entry key="app/src/main/res/drawable/social.xml" value="0.299" />
         <entry key="app/src/main/res/layout-land/activity_login.xml" value="0.10625" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.17147922998986828" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.22283020019531252" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3385416666666667" />
+        <entry key="app/src/main/res/layout/fragment_mail.xml" value="0.18781738281250002" />
+        <entry key="app/src/main/res/layout/fragment_setting.xml" value="0.25663452148437504" />
+        <entry key="app/src/main/res/layout/header_navigation_drawer.xml" value="0.3515625" />
+        <entry key="app/src/main/res/layout/view_mail_list.xml" value="0.375" />
+        <entry key="app/src/main/res/menu/bottom_navigation_menu.xml" value="0.3515625" />
+        <entry key="app/src/main/res/menu/navigation_drawer_menu.xml" value="0.35260416666666666" />
       </map>
     </option>
   </component>
