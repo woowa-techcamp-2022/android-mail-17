@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.android_mail_17.R
+import com.example.android_mail_17.adapters.MailListAdapter
 import com.example.android_mail_17.databinding.FragmentMailBinding
 import com.example.android_mail_17.ui.activities.HomeActivity
 
 class MailFragment : Fragment() {
     private var _binding: FragmentMailBinding? = null
     private val binding: FragmentMailBinding get() = requireNotNull(_binding)
+    private val adapter: MailListAdapter by lazy { MailListAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,10 +27,15 @@ class MailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setAppBar()
+        setRecyclerView()
     }
 
     private fun setAppBar() {
         (activity as HomeActivity).setAppBar(R.drawable.menu, R.string.mail)
+    }
+
+    private fun setRecyclerView() {
+        binding.mailRecyclerView.adapter = adapter
     }
 
     override fun onDestroyView() {

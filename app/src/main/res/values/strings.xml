@@ -13,4 +13,6 @@
     <string name="primary">Primary</string>
     <string name="social">Social</string>
     <string name="promotion">Promotion</string>
+    <string name="mail_title">메일 타이틀</string>
+    <string name="mail_body">메일 내용</string>
 </resources>
