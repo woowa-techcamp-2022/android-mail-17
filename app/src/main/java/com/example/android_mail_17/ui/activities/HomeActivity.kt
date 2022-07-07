@@ -31,7 +31,7 @@ class HomeActivity : AppCompatActivity() {
 
         setAppBarMenuClickListener()
         setDrawerItemClickListener()
-        setBottomNavigationView()
+        setBottomNavigationView(savedInstanceState?.getInt("selectedItemId"))
     }
 
     fun setAppBar(icon: Int?, title: Int) {
@@ -64,22 +64,49 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun setBottomNavigationView() {
+    private fun setBottomNavigationView(itemId: Int?) {
         binding.bottomNavigation.run {
             setOnItemSelectedListener { menuItem ->
                 when (menuItem.itemId) {
-                    R.id.bottomNavigationMailMenu -> changeFragment(MailFragment())
+                    R.id.bottomNavigationMailMenu -> {
+                        resetMailTab()
+                        changeFragment(MailFragment())
+                    }
                     R.id.bottomNavigationSettingMenu -> changeFragment(SettingFragment())
                 }
                 true
             }
-            selectedItemId = R.id.bottomNavigationMailMenu
+            selectedItemId = itemId ?: R.id.bottomNavigationMailMenu
         }
+    }
+
+    private fun resetMailTab() {
+        binding.drawer.setCheckedItem(R.id.drawerPrimaryMenu)
+        emailViewModel.setMailType(MailTypeEnum.PRIMARY)
     }
 
     private fun changeFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment)
             .commit()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt("selectedItemId", binding.bottomNavigation.selectedItemId)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onBackPressed() {
+        with(binding.bottomNavigation) {
+            when (selectedItemId) {
+                R.id.bottomNavigationMailMenu -> {
+                    when (emailViewModel.mailType.value) {
+                        MailTypeEnum.PRIMARY -> super.onBackPressed()
+                        else -> resetMailTab()
+                    }
+                }
+                R.id.bottomNavigationSettingMenu -> selectedItemId = R.id.bottomNavigationMailMenu
+            }
+        }
     }
 }
