@@ -93,7 +93,10 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setButtonClickListener() {
         binding.loginButton.setOnClickListener {
-            startActivity(Intent(this, HomeActivity::class.java))
+            startActivity(Intent(this, HomeActivity::class.java).apply {
+                putExtra("nickname", inputViewModel.nickname)
+                putExtra("email", inputViewModel.email)
+            })
             finish()
         }
     }

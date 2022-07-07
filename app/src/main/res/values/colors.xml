@@ -7,4 +7,22 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="red_400">#ef5350</color>
+    <color name="pink_400">#ec407a</color>
+    <color name="purple_400">#ab47bc</color>
+    <color name="blue_400">#42a5f5</color>
+    <color name="green_400">#66bb6a</color>
+    <color name="orange_400">#ffa726</color>
+    <color name="brown_400">#8d6e63</color>
+
+    <array name="profile_background_color">
+        <item>@color/red_400</item>
+        <item>@color/pink_400</item>
+        <item>@color/purple_400</item>
+        <item>@color/blue_400</item>
+        <item>@color/green_400</item>
+        <item>@color/orange_400</item>
+        <item>@color/brown_400</item>
+    </array>
 </resources>
