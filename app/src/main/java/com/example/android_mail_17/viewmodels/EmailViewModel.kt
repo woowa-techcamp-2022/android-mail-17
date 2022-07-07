@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.android_mail_17.models.EmailData
 import com.example.android_mail_17.others.MailTypeEnum
+import com.example.android_mail_17.others.Utils
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -25,11 +26,11 @@ class EmailViewModel(application: Application) : AndroidViewModel(application) {
         val jsonStr = context.assets.open("dummy.json").reader().readText()
         val listType = object : TypeToken<MutableList<EmailData>>() {}.type
         val data: List<EmailData> = Gson().fromJson(jsonStr, listType)
-        saveEmailData(data)
-    }
-
-    private fun saveEmailData(data: List<EmailData>) {
-        _emailData.postValue(data)
+        with(data) {
+            forEach { it.color = Utils.getRandomColor(context) }
+            _emailData.postValue(this)
+        }
+        context.assets.close()
     }
 
     fun setMailType(type: MailTypeEnum) {

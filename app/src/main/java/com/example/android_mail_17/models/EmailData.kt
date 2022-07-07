@@ -4,5 +4,6 @@ data class EmailData(
     val nickname: String,
     val title: String,
     val body: String,
-    val type: String
+    val type: String,
+    var color: Int?
 )

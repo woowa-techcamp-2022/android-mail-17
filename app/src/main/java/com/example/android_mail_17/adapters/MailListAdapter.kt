@@ -66,17 +66,13 @@ class MailListAdapter : RecyclerView.Adapter<MailListAdapter.MailListViewHolder>
             private val binding: ViewMailListTextProfileBinding
         ) : MailListViewHolder(binding.root) {
             fun bind(data: EmailData) {
-                setTextProfile(data.nickname[0].toString())
+                binding.mailTextProfile.run {
+                    text = data.nickname[0].toString()
+                    data.color?.let { setBackgroundColor(it) }
+                }
                 binding.mailNicknameView.text = data.nickname
                 binding.mailTitleView.text = data.title
                 binding.mailBodyView.text = data.body
-            }
-
-            private fun setTextProfile(firstWord: String) {
-                binding.mailTextProfile.run {
-                    text = firstWord
-                    setBackgroundColor(Utils.getRandomColor(binding.root.context))
-                }
             }
         }
 
