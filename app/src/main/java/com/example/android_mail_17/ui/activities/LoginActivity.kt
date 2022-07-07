@@ -1,4 +1,4 @@
-package com.example.android_mail_17.ui
+package com.example.android_mail_17.ui.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

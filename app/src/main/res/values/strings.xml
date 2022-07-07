@@ -7,4 +7,7 @@
     <string name="next">Next</string>
     <string name="nickname_error">닉네임은 영문자와 숫자 결합한 4~12자로 입력해주세요.</string>
     <string name="email_error">적절한 이메일 형식이 아닙니다.</string>
+    <string name="mail">Mail</string>
+    <string name="setting">Setting</string>
+    <string name="w_mail">W_mail</string>
 </resources>
