@@ -7,14 +7,17 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import com.example.android_mail_17.R
 import com.example.android_mail_17.databinding.ActivityHomeBinding
+import com.example.android_mail_17.others.MailTypeEnum
 import com.example.android_mail_17.ui.fragments.MailFragment
 import com.example.android_mail_17.ui.fragments.SettingFragment
+import com.example.android_mail_17.viewmodels.EmailViewModel
 import com.example.android_mail_17.viewmodels.InputViewModel
 
 class HomeActivity : AppCompatActivity() {
     private var _binding: ActivityHomeBinding? = null
     private val binding: ActivityHomeBinding get() = requireNotNull(_binding)
     private val inputViewModel by viewModels<InputViewModel>()
+    private val emailViewModel by viewModels<EmailViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +53,11 @@ class HomeActivity : AppCompatActivity() {
 
     private fun setDrawerItemClickListener() {
         binding.drawer.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.drawerPrimaryMenu -> emailViewModel.setMailType(MailTypeEnum.PRIMARY)
+                R.id.drawerSocialMenu -> emailViewModel.setMailType(MailTypeEnum.SOCIAL)
+                R.id.drawerPromotionMenu -> emailViewModel.setMailType(MailTypeEnum.PROMOTION)
+            }
             menuItem.isChecked = true
             binding.drawerLayout.closeDrawer(GravityCompat.START)
             true
