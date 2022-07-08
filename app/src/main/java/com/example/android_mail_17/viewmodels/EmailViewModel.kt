@@ -2,6 +2,7 @@ package com.example.android_mail_17.viewmodels
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.android_mail_17.models.EmailData
@@ -23,14 +24,18 @@ class EmailViewModel(application: Application) : AndroidViewModel(application) {
 
 
     private fun fetchData(context: Context) {
-        val jsonStr = context.assets.open("dummy.json").reader().readText()
-        val listType = object : TypeToken<MutableList<EmailData>>() {}.type
-        val data: List<EmailData> = Gson().fromJson(jsonStr, listType)
-        with(data) {
-            forEach { it.color = Utils.getRandomColor(context) }
-            _emailData.postValue(this)
+        try {
+            val jsonStr = context.assets.open("dummy.json").reader().readText()
+            val listType = object : TypeToken<MutableList<EmailData>>() {}.type
+            val data: List<EmailData> = Gson().fromJson(jsonStr, listType)
+            with(data) {
+                forEach { it.color = Utils.getRandomColor(context) }
+                _emailData.postValue(this)
+            }
+            context.assets.close()
+        } catch (e: Exception) {
+            Log.e("userAssets", "${e.message}")
         }
-        context.assets.close()
     }
 
     fun setMailType(type: MailTypeEnum) {

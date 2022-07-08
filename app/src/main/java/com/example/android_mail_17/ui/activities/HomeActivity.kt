@@ -32,6 +32,7 @@ class HomeActivity : AppCompatActivity() {
         setAppBarMenuClickListener()
         setDrawerItemClickListener()
         setBottomNavigationView(savedInstanceState?.getInt("selectedItemId"))
+        setNavigationRail(savedInstanceState?.getInt("selectedItemId"))
     }
 
     fun setAppBar(icon: Int?, title: Int) {
@@ -65,18 +66,32 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setBottomNavigationView(itemId: Int?) {
-        binding.bottomNavigation.run {
+        binding.bottomNavigation?.run {
             setOnItemSelectedListener { menuItem ->
-                when (menuItem.itemId) {
-                    R.id.bottomNavigationMailMenu -> {
-                        resetMailTab()
-                        changeFragment(MailFragment())
-                    }
-                    R.id.bottomNavigationSettingMenu -> changeFragment(SettingFragment())
-                }
+                checkMenuItemId(menuItem.itemId)
                 true
             }
-            selectedItemId = itemId ?: R.id.bottomNavigationMailMenu
+            selectedItemId = itemId ?: R.id.mailMenu
+        }
+    }
+
+    private fun setNavigationRail(itemId: Int?) {
+        binding.navigationRail?.run {
+            setOnItemSelectedListener { menuItem ->
+                checkMenuItemId(menuItem.itemId)
+                true
+            }
+            selectedItemId = itemId ?: R.id.mailMenu
+        }
+    }
+
+    private fun checkMenuItemId(itemId: Int) {
+        when (itemId) {
+            R.id.mailMenu -> {
+                resetMailTab()
+                changeFragment(MailFragment())
+            }
+            R.id.settingMenu -> changeFragment(SettingFragment())
         }
     }
 
@@ -92,20 +107,33 @@ class HomeActivity : AppCompatActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putInt("selectedItemId", binding.bottomNavigation.selectedItemId)
+        binding.bottomNavigation?.run { outState.putInt("selectedItemId", selectedItemId) }
+        binding.navigationRail?.run { outState.putInt("selectedItemId", selectedItemId) }
         super.onSaveInstanceState(outState)
     }
 
     override fun onBackPressed() {
-        with(binding.bottomNavigation) {
+        binding.bottomNavigation?.run {
             when (selectedItemId) {
-                R.id.bottomNavigationMailMenu -> {
+                R.id.mailMenu -> {
                     when (emailViewModel.mailType.value) {
                         MailTypeEnum.PRIMARY -> super.onBackPressed()
                         else -> resetMailTab()
                     }
                 }
-                R.id.bottomNavigationSettingMenu -> selectedItemId = R.id.bottomNavigationMailMenu
+                R.id.settingMenu -> selectedItemId = R.id.mailMenu
+            }
+        }
+
+        binding.navigationRail?.run {
+            when (selectedItemId) {
+                R.id.mailMenu -> {
+                    when (emailViewModel.mailType.value) {
+                        MailTypeEnum.PRIMARY -> super.onBackPressed()
+                        else -> resetMailTab()
+                    }
+                }
+                R.id.settingMenu -> selectedItemId = R.id.mailMenu
             }
         }
     }
