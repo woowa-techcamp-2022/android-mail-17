@@ -1,4 +1,4 @@
-package com.example.android_mail_17.ui
+package com.example.android_mail_17.ui.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -16,7 +16,7 @@ class LoginActivity : AppCompatActivity() {
     private val flagViewModel by viewModels<FlagViewModel>()
     private val inputViewModel by viewModels<InputViewModel>()
     private var _binding: ActivityLoginBinding? = null
-    val binding: ActivityLoginBinding get() = requireNotNull(_binding)
+    private val binding: ActivityLoginBinding get() = requireNotNull(_binding)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,7 +93,10 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setButtonClickListener() {
         binding.loginButton.setOnClickListener {
-            startActivity(Intent(this, HomeActivity::class.java))
+            startActivity(Intent(this, HomeActivity::class.java).apply {
+                putExtra("nickname", inputViewModel.nickname)
+                putExtra("email", inputViewModel.email)
+            })
             finish()
         }
     }
