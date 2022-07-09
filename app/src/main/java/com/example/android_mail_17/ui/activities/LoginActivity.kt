@@ -13,14 +13,13 @@ import com.example.android_mail_17.viewmodels.InputViewModel
 import com.google.android.material.textfield.TextInputLayout
 
 class LoginActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityLoginBinding
     private val flagViewModel by viewModels<FlagViewModel>()
     private val inputViewModel by viewModels<InputViewModel>()
-    private var _binding: ActivityLoginBinding? = null
-    private val binding: ActivityLoginBinding get() = requireNotNull(_binding)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityLoginBinding.inflate(layoutInflater)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         restoreData()
