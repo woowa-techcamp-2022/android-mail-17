@@ -20,7 +20,6 @@ class EmailViewModel(application: Application) : AndroidViewModel(application) {
         fetchData(application)
     }
 
-
     private fun fetchData(context: Context) {
         try {
             val jsonStr = context.assets.open("dummy.json").reader().readText()

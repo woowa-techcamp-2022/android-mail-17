@@ -37,37 +37,36 @@ class LoginActivity : AppCompatActivity() {
     private fun setTextChangeListener() {
         binding.loginNickNameEditText.addTextChangedListener {
             it?.let { nickname -> inputViewModel.saveNickname(nickname.toString()) }
-            val emailFlag = flagViewModel.constraintFlag.value?.emailConstraintFlag ?: false
             when {
                 it.isNullOrBlank() -> {
                     resetError(binding.loginNickNameLayout)
-                    flagViewModel.setFlag(false, emailFlag)
+                    flagViewModel.setNicknameFlag(false)
                 }
                 Utils.checkNicknameConstraint(it.toString()) -> {
                     resetError(binding.loginNickNameLayout)
-                    flagViewModel.setFlag(true, emailFlag)
+                    flagViewModel.setNicknameFlag(true)
                 }
                 else -> {
                     setNicknameError(binding.loginNickNameLayout)
-                    flagViewModel.setFlag(false, emailFlag)
+                    flagViewModel.setNicknameFlag(false)
                 }
             }
         }
+
         binding.loginEmailEditText.addTextChangedListener {
             it?.let { email -> inputViewModel.saveEmail(email.toString()) }
-            val nicknameFlag = flagViewModel.constraintFlag.value?.nicknameConstraintFlag ?: false
             when {
                 it.isNullOrBlank() -> {
                     resetError(binding.loginEmailLayout)
-                    flagViewModel.setFlag(nicknameFlag, false)
+                    flagViewModel.setEmailFlag(false)
                 }
                 Utils.checkEmailConstraint(it.toString()) -> {
                     resetError(binding.loginEmailLayout)
-                    flagViewModel.setFlag(nicknameFlag, true)
+                    flagViewModel.setEmailFlag(true)
                 }
                 else -> {
                     setEmailError(binding.loginEmailLayout)
-                    flagViewModel.setFlag(nicknameFlag, false)
+                    flagViewModel.setEmailFlag(false)
                 }
             }
         }
@@ -86,8 +85,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setLiveDataObserver() {
-        flagViewModel.constraintFlag.observe(this) { flag ->
-            binding.loginButton.isEnabled = flag.nicknameConstraintFlag && flag.emailConstraintFlag
+        flagViewModel.buttonEnabledFlag.observe(this) { flag ->
+            binding.loginButton.isEnabled = flag
         }
     }
 
