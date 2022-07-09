@@ -12,12 +12,14 @@ import com.example.android_mail_17.databinding.FragmentMailBinding
 import com.example.android_mail_17.others.MailTypeEnum
 import com.example.android_mail_17.ui.activities.HomeActivity
 import com.example.android_mail_17.viewmodels.EmailViewModel
+import com.example.android_mail_17.viewmodels.MenuViewModel
 
 class MailFragment : Fragment() {
     private var _binding: FragmentMailBinding? = null
     private val binding: FragmentMailBinding get() = requireNotNull(_binding)
     private val adapter: MailListAdapter by lazy { MailListAdapter() }
     private val emailViewModel by activityViewModels<EmailViewModel>()
+    private val menuViewModel by activityViewModels<MenuViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +46,7 @@ class MailFragment : Fragment() {
     }
 
     private fun setDataObserver() {
-        emailViewModel.mailType.observe(viewLifecycleOwner) { type ->
+        menuViewModel.selectedMailType.observe(viewLifecycleOwner) { type ->
             type?.run {
                 when (this) {
                     MailTypeEnum.PRIMARY -> binding.mailTypeView.text = getString(R.string.primary)

@@ -12,14 +12,11 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 class EmailViewModel(application: Application) : AndroidViewModel(application) {
-    private var _mailType = MutableLiveData<MailTypeEnum>()
-    val mailType: MutableLiveData<MailTypeEnum> get() = _mailType
     private var _emailData = MutableLiveData<List<EmailData>>()
     val emailData: MutableLiveData<List<EmailData>> get() = _emailData
 
     init {
         fetchData(application)
-        setMailType(MailTypeEnum.PRIMARY)
     }
 
 
@@ -36,10 +33,6 @@ class EmailViewModel(application: Application) : AndroidViewModel(application) {
         } catch (e: Exception) {
             Log.e("userAssets", "${e.message}")
         }
-    }
-
-    fun setMailType(type: MailTypeEnum) {
-        mailType.postValue(type)
     }
 
     fun getFilteredDataByType(type: MailTypeEnum): List<EmailData>? {

@@ -11,13 +11,13 @@ class MenuViewModel : ViewModel() {
     val selectedTab: LiveData<Int> get() = _selectedTab
 
     private var _selectedMailType = MutableLiveData(MailTypeEnum.PRIMARY)
-    val mailType: LiveData<MailTypeEnum> get() = _selectedMailType
+    val selectedMailType: LiveData<MailTypeEnum> get() = _selectedMailType
 
     fun setSelectedTab(menu: Int) {
         _selectedTab.value = menu
     }
 
-    fun setMailType(type: MailTypeEnum) {
+    fun setSelectedMailType(type: MailTypeEnum) {
         _selectedMailType.value = type
     }
 }
