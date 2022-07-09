@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.android_mail_17.models.EmailData
 import com.example.android_mail_17.others.MailTypeEnum
@@ -13,7 +14,7 @@ import com.google.gson.reflect.TypeToken
 
 class EmailViewModel(application: Application) : AndroidViewModel(application) {
     private var _emailData = MutableLiveData<List<EmailData>>()
-    val emailData: MutableLiveData<List<EmailData>> get() = _emailData
+    private val emailData: LiveData<List<EmailData>> get() = _emailData
 
     init {
         fetchData(application)
@@ -25,10 +26,8 @@ class EmailViewModel(application: Application) : AndroidViewModel(application) {
             val jsonStr = context.assets.open("dummy.json").reader().readText()
             val listType = object : TypeToken<MutableList<EmailData>>() {}.type
             val data: List<EmailData> = Gson().fromJson(jsonStr, listType)
-            with(data) {
-                forEach { it.color = Utils.getRandomColor(context) }
-                _emailData.postValue(this)
-            }
+            data.forEach { it.color = Utils.getRandomColor(context) }
+            _emailData.value = data
             context.assets.close()
         } catch (e: Exception) {
             Log.e("userAssets", "${e.message}")
