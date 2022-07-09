@@ -10,14 +10,15 @@ import com.example.android_mail_17.databinding.ActivityHomeBinding
 import com.example.android_mail_17.others.MailTypeEnum
 import com.example.android_mail_17.ui.fragments.MailFragment
 import com.example.android_mail_17.ui.fragments.SettingFragment
-import com.example.android_mail_17.viewmodels.EmailViewModel
 import com.example.android_mail_17.viewmodels.InputViewModel
+import com.example.android_mail_17.viewmodels.MenuViewModel
+import com.google.android.material.navigation.NavigationBarView
 
 class HomeActivity : AppCompatActivity() {
     private var _binding: ActivityHomeBinding? = null
     private val binding: ActivityHomeBinding get() = requireNotNull(_binding)
     private val inputViewModel by viewModels<InputViewModel>()
-    private val emailViewModel by viewModels<EmailViewModel>()
+    private val menuViewModel by viewModels<MenuViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,10 +30,36 @@ class HomeActivity : AppCompatActivity() {
             inputViewModel.saveEmail(getString("email", "email"))
         }
 
+        setObservers()
         setAppBarMenuClickListener()
         setDrawerItemClickListener()
-        setBottomNavigationView(savedInstanceState?.getInt("selectedItemId"))
-        setNavigationRail(savedInstanceState?.getInt("selectedItemId"))
+        setNavigationBarView()
+    }
+
+    private fun setObservers() {
+        menuViewModel.selectedTab.observe(this) {
+            setNavigationViewMenu(it)
+            when (it) {
+                R.id.mailMenu -> changeFragment(MailFragment())
+                else -> changeFragment(SettingFragment())
+            }
+        }
+        menuViewModel.selectedMailType.observe(this) { setDrawerMenu(it) }
+    }
+
+    private fun setNavigationViewMenu(menuId: Int) {
+        binding.bottomNavigation?.run { menu.findItem(menuId).isChecked = true }
+        binding.navigationRail?.run { menu.findItem(menuId).isChecked = true }
+    }
+
+    private fun setDrawerMenu(mailType: MailTypeEnum) {
+        with(binding.drawer.menu) {
+            when (mailType) {
+                MailTypeEnum.PRIMARY -> findItem(R.id.drawerPrimaryMenu).isChecked = true
+                MailTypeEnum.SOCIAL -> findItem(R.id.drawerSocialMenu).isChecked = true
+                MailTypeEnum.PROMOTION -> findItem(R.id.drawerPromotionMenu).isChecked = true
+            }
+        }
     }
 
     fun setAppBar(icon: Int?, title: Int) {
@@ -55,49 +82,33 @@ class HomeActivity : AppCompatActivity() {
     private fun setDrawerItemClickListener() {
         binding.drawer.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.drawerPrimaryMenu -> emailViewModel.setMailType(MailTypeEnum.PRIMARY)
-                R.id.drawerSocialMenu -> emailViewModel.setMailType(MailTypeEnum.SOCIAL)
-                R.id.drawerPromotionMenu -> emailViewModel.setMailType(MailTypeEnum.PROMOTION)
+                R.id.drawerPrimaryMenu -> menuViewModel.setSelectedMailType(MailTypeEnum.PRIMARY)
+                R.id.drawerSocialMenu -> menuViewModel.setSelectedMailType(MailTypeEnum.SOCIAL)
+                R.id.drawerPromotionMenu -> menuViewModel.setSelectedMailType(MailTypeEnum.PROMOTION)
             }
-            menuItem.isChecked = true
             binding.drawerLayout.closeDrawer(GravityCompat.START)
             true
         }
     }
 
-    private fun setBottomNavigationView(itemId: Int?) {
-        binding.bottomNavigation?.run {
-            setOnItemSelectedListener { menuItem ->
-                checkMenuItemId(menuItem.itemId)
-                true
+    private fun setNavigationBarView() {
+        NavigationBarView.OnItemSelectedListener { menuItem ->
+            if (menuItem.itemId == R.id.mailMenu) {
+                setMailTabDefault()
             }
-            selectedItemId = itemId ?: R.id.mailMenu
+            menuViewModel.setSelectedTab(menuItem.itemId)
+            true
+        }.let { listener ->
+            binding.bottomNavigation?.setOnItemSelectedListener(listener)
+            binding.navigationRail?.setOnItemSelectedListener(listener)
         }
     }
 
-    private fun setNavigationRail(itemId: Int?) {
-        binding.navigationRail?.run {
-            setOnItemSelectedListener { menuItem ->
-                checkMenuItemId(menuItem.itemId)
-                true
-            }
-            selectedItemId = itemId ?: R.id.mailMenu
+    private fun setMailTabDefault() {
+        menuViewModel.run {
+            setSelectedTab(R.id.mailMenu)
+            setSelectedMailType(MailTypeEnum.PRIMARY)
         }
-    }
-
-    private fun checkMenuItemId(itemId: Int) {
-        when (itemId) {
-            R.id.mailMenu -> {
-                resetMailTab()
-                changeFragment(MailFragment())
-            }
-            R.id.settingMenu -> changeFragment(SettingFragment())
-        }
-    }
-
-    private fun resetMailTab() {
-        binding.drawer.setCheckedItem(R.id.drawerPrimaryMenu)
-        emailViewModel.setMailType(MailTypeEnum.PRIMARY)
     }
 
     private fun changeFragment(fragment: Fragment) {
@@ -106,35 +117,15 @@ class HomeActivity : AppCompatActivity() {
             .commit()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        binding.bottomNavigation?.run { outState.putInt("selectedItemId", selectedItemId) }
-        binding.navigationRail?.run { outState.putInt("selectedItemId", selectedItemId) }
-        super.onSaveInstanceState(outState)
-    }
-
     override fun onBackPressed() {
-        binding.bottomNavigation?.run {
-            when (selectedItemId) {
-                R.id.mailMenu -> {
-                    when (emailViewModel.mailType.value) {
-                        MailTypeEnum.PRIMARY -> super.onBackPressed()
-                        else -> resetMailTab()
-                    }
+        when (menuViewModel.selectedTab.value) {
+            R.id.mailMenu -> {
+                when (menuViewModel.selectedMailType.value) {
+                    MailTypeEnum.PRIMARY -> super.onBackPressed()
+                    else -> menuViewModel.setSelectedMailType(MailTypeEnum.PRIMARY)
                 }
-                R.id.settingMenu -> selectedItemId = R.id.mailMenu
             }
-        }
-
-        binding.navigationRail?.run {
-            when (selectedItemId) {
-                R.id.mailMenu -> {
-                    when (emailViewModel.mailType.value) {
-                        MailTypeEnum.PRIMARY -> super.onBackPressed()
-                        else -> resetMailTab()
-                    }
-                }
-                R.id.settingMenu -> selectedItemId = R.id.mailMenu
-            }
+            else -> setMailTabDefault()
         }
     }
 }
