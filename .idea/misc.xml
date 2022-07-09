@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.2164855072463768" />
         <entry key="app/src/main/res/drawable/edit.xml" value="0.1875" />
         <entry key="app/src/main/res/drawable/mail.xml" value="0.299" />
         <entry key="app/src/main/res/drawable/menu.xml" value="0.299" />
@@ -13,6 +14,7 @@
         <entry key="app/src/main/res/drawable/social.xml" value="0.299" />
         <entry key="app/src/main/res/layout-land/activity_login.xml" value="0.10625" />
         <entry key="app/src/main/res/layout-land/view_mail_list_text_profile.xml" value="0.2985008818342152" />
+        <entry key="app/src/main/res/layout-w600dp/activity_home.xml" value="0.2899785387494308" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.17147922998986828" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.22283020019531252" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3385416666666667" />
@@ -20,9 +22,10 @@
         <entry key="app/src/main/res/layout/fragment_setting.xml" value="0.25663452148437504" />
         <entry key="app/src/main/res/layout/header_navigation_drawer.xml" value="0.3515625" />
         <entry key="app/src/main/res/layout/view_mail_list.xml" value="0.41395721435546873" />
-        <entry key="app/src/main/res/layout/view_mail_list_image_profile.xml" value="0.17147922998986828" />
+        <entry key="app/src/main/res/layout/view_mail_list_image_profile.xml" value="0.1" />
         <entry key="app/src/main/res/layout/view_mail_list_text_profile.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/menu/bottom_navigation_menu.xml" value="0.3515625" />
+        <entry key="app/src/main/res/menu/navigation_bar_menu.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/menu/navigation_drawer_menu.xml" value="0.35260416666666666" />
       </map>
     </option>
