@@ -101,11 +101,6 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun resetMailTab() {
-        binding.drawer.setCheckedItem(R.id.drawerPrimaryMenu)
-        // emailViewModel.setMailType(MailTypeEnum.PRIMARY)
-    }
-
     private fun changeFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment)
@@ -113,28 +108,14 @@ class HomeActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        binding.bottomNavigation?.run {
-            when (selectedItemId) {
-                R.id.mailMenu -> {
-                    when (menuViewModel.selectedMailType.value) {
-                        MailTypeEnum.PRIMARY -> super.onBackPressed()
-                        else -> resetMailTab()
-                    }
+        when(menuViewModel.selectedTab.value) {
+            R.id.mailMenu -> {
+                when(menuViewModel.selectedMailType.value) {
+                    MailTypeEnum.PRIMARY -> super.onBackPressed()
+                    else -> menuViewModel.setSelectedMailType(MailTypeEnum.PRIMARY)
                 }
-                R.id.settingMenu -> selectedItemId = R.id.mailMenu
             }
-        }
-
-        binding.navigationRail?.run {
-            when (selectedItemId) {
-                R.id.mailMenu -> {
-                    when (menuViewModel.selectedMailType.value) {
-                        MailTypeEnum.PRIMARY -> super.onBackPressed()
-                        else -> resetMailTab()
-                    }
-                }
-                R.id.settingMenu -> selectedItemId = R.id.mailMenu
-            }
+            else -> menuViewModel.setSelectedTab(R.id.mailMenu)
         }
     }
 }
