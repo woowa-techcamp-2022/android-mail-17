@@ -36,9 +36,9 @@ class EmailViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getFilteredDataByType(type: MailTypeEnum): List<EmailData>? {
         return when (type) {
-            MailTypeEnum.PRIMARY -> emailData.value?.filter { it.type == "primary" }
-            MailTypeEnum.SOCIAL -> emailData.value?.filter { it.type == "social" }
-            MailTypeEnum.PROMOTION -> emailData.value?.filter { it.type == "promotion" }
+            MailTypeEnum.PRIMARY -> emailData.value?.filter { it.type == MailTypeEnum.PRIMARY }
+            MailTypeEnum.SOCIAL -> emailData.value?.filter { it.type == MailTypeEnum.SOCIAL }
+            MailTypeEnum.PROMOTION -> emailData.value?.filter { it.type == MailTypeEnum.PROMOTION }
         }
     }
 }
