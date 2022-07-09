@@ -93,11 +93,21 @@ class HomeActivity : AppCompatActivity() {
 
     private fun setNavigationBarView() {
         NavigationBarView.OnItemSelectedListener { menuItem ->
+            if (menuItem.itemId == R.id.mailMenu) {
+                setMailTabDefault()
+            }
             menuViewModel.setSelectedTab(menuItem.itemId)
             true
         }.let { listener ->
             binding.bottomNavigation?.setOnItemSelectedListener(listener)
             binding.navigationRail?.setOnItemSelectedListener(listener)
+        }
+    }
+
+    private fun setMailTabDefault() {
+        menuViewModel.run {
+            setSelectedTab(R.id.mailMenu)
+            setSelectedMailType(MailTypeEnum.PRIMARY)
         }
     }
 
@@ -108,14 +118,14 @@ class HomeActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        when(menuViewModel.selectedTab.value) {
+        when (menuViewModel.selectedTab.value) {
             R.id.mailMenu -> {
-                when(menuViewModel.selectedMailType.value) {
+                when (menuViewModel.selectedMailType.value) {
                     MailTypeEnum.PRIMARY -> super.onBackPressed()
                     else -> menuViewModel.setSelectedMailType(MailTypeEnum.PRIMARY)
                 }
             }
-            else -> menuViewModel.setSelectedTab(R.id.mailMenu)
+            else -> setMailTabDefault()
         }
     }
 }
