@@ -1,5 +1,7 @@
 package com.example.android_mail_17.ui.activities
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -15,25 +17,34 @@ import com.example.android_mail_17.viewmodels.MenuViewModel
 import com.google.android.material.navigation.NavigationBarView
 
 class HomeActivity : AppCompatActivity() {
-    private var _binding: ActivityHomeBinding? = null
-    private val binding: ActivityHomeBinding get() = requireNotNull(_binding)
+    private lateinit var binding: ActivityHomeBinding
     private val inputViewModel by viewModels<InputViewModel>()
     private val menuViewModel by viewModels<MenuViewModel>()
 
+    companion object {
+        const val NICKNAME = "Nickname"
+        const val EMAIL = "Email"
+
+        fun getIntent(context: Context) = Intent(context, HomeActivity::class.java)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityHomeBinding.inflate(layoutInflater)
+        binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        intent.extras?.run {
-            inputViewModel.saveNickname(getString("nickname", "nickname"))
-            inputViewModel.saveEmail(getString("email", "email"))
-        }
-
+        setInputInfo()
         setObservers()
         setAppBarMenuClickListener()
         setDrawerItemClickListener()
         setNavigationBarView()
+    }
+
+    private fun setInputInfo() {
+        intent.extras?.run {
+            inputViewModel.saveNickname(getString(NICKNAME, "nickname"))
+            inputViewModel.saveEmail(getString(EMAIL, "email"))
+        }
     }
 
     private fun setObservers() {

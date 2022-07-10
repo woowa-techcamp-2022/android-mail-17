@@ -1,24 +1,27 @@
 package com.example.android_mail_17.viewmodels
 
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.android_mail_17.models.ConstraintFlag
 
 class FlagViewModel : ViewModel() {
-    private var _constraintFlag = MutableLiveData<ConstraintFlag>()
-    val constraintFlag: LiveData<ConstraintFlag> get() = _constraintFlag
+    private var _nicknameConstraintFlag = MutableLiveData(false)
+    private var _emailConstraintFlag = MutableLiveData(false)
+    val buttonEnabledFlag
+        get() = MediatorLiveData<Boolean>().apply {
+            addSource(_nicknameConstraintFlag) { value = isButtonEnabled() }
+            addSource(_emailConstraintFlag) { value = isButtonEnabled() }
+        }
 
-    init {
-        _constraintFlag.postValue(
-            ConstraintFlag(
-                nicknameConstraintFlag = false,
-                emailConstraintFlag = false
-            )
-        )
+    private fun isButtonEnabled(): Boolean {
+        return _nicknameConstraintFlag.value ?: false && _emailConstraintFlag.value ?: false
     }
 
-    fun setFlag(nicknameFlag: Boolean, emailFlag: Boolean) {
-        _constraintFlag.postValue(ConstraintFlag(nicknameFlag, emailFlag))
+    fun setNicknameFlag(flag: Boolean) {
+        _nicknameConstraintFlag.value = flag
+    }
+
+    fun setEmailFlag(flag: Boolean) {
+        _emailConstraintFlag.value = flag
     }
 }

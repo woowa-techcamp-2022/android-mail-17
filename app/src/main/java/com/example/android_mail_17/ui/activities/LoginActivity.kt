@@ -13,14 +13,13 @@ import com.example.android_mail_17.viewmodels.InputViewModel
 import com.google.android.material.textfield.TextInputLayout
 
 class LoginActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityLoginBinding
     private val flagViewModel by viewModels<FlagViewModel>()
     private val inputViewModel by viewModels<InputViewModel>()
-    private var _binding: ActivityLoginBinding? = null
-    private val binding: ActivityLoginBinding get() = requireNotNull(_binding)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityLoginBinding.inflate(layoutInflater)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         restoreData()
@@ -37,37 +36,36 @@ class LoginActivity : AppCompatActivity() {
     private fun setTextChangeListener() {
         binding.loginNickNameEditText.addTextChangedListener {
             it?.let { nickname -> inputViewModel.saveNickname(nickname.toString()) }
-            val emailFlag = flagViewModel.constraintFlag.value?.emailConstraintFlag ?: false
             when {
                 it.isNullOrBlank() -> {
                     resetError(binding.loginNickNameLayout)
-                    flagViewModel.setFlag(false, emailFlag)
+                    flagViewModel.setNicknameFlag(false)
                 }
                 Utils.checkNicknameConstraint(it.toString()) -> {
                     resetError(binding.loginNickNameLayout)
-                    flagViewModel.setFlag(true, emailFlag)
+                    flagViewModel.setNicknameFlag(true)
                 }
                 else -> {
                     setNicknameError(binding.loginNickNameLayout)
-                    flagViewModel.setFlag(false, emailFlag)
+                    flagViewModel.setNicknameFlag(false)
                 }
             }
         }
+
         binding.loginEmailEditText.addTextChangedListener {
             it?.let { email -> inputViewModel.saveEmail(email.toString()) }
-            val nicknameFlag = flagViewModel.constraintFlag.value?.nicknameConstraintFlag ?: false
             when {
                 it.isNullOrBlank() -> {
                     resetError(binding.loginEmailLayout)
-                    flagViewModel.setFlag(nicknameFlag, false)
+                    flagViewModel.setEmailFlag(false)
                 }
                 Utils.checkEmailConstraint(it.toString()) -> {
                     resetError(binding.loginEmailLayout)
-                    flagViewModel.setFlag(nicknameFlag, true)
+                    flagViewModel.setEmailFlag(true)
                 }
                 else -> {
                     setEmailError(binding.loginEmailLayout)
-                    flagViewModel.setFlag(nicknameFlag, false)
+                    flagViewModel.setEmailFlag(false)
                 }
             }
         }
@@ -86,16 +84,16 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setLiveDataObserver() {
-        flagViewModel.constraintFlag.observe(this) { flag ->
-            binding.loginButton.isEnabled = flag.nicknameConstraintFlag && flag.emailConstraintFlag
+        flagViewModel.buttonEnabledFlag.observe(this) { flag ->
+            binding.loginButton.isEnabled = flag
         }
     }
 
     private fun setButtonClickListener() {
         binding.loginButton.setOnClickListener {
-            startActivity(Intent(this, HomeActivity::class.java).apply {
-                putExtra("nickname", inputViewModel.nickname)
-                putExtra("email", inputViewModel.email)
+            startActivity(HomeActivity.getIntent(this).apply {
+                putExtra(HomeActivity.NICKNAME, inputViewModel.nickname)
+                putExtra(HomeActivity.EMAIL, inputViewModel.email)
             })
             finish()
         }
